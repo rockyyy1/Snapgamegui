@@ -73,7 +73,7 @@ class DeckOfCards:
         hands = []
         for i in range(players):
             hands.append([])
-            
+    
         #how many cards each player should receive, ignoring the remainder
         cards_per_player = len(self.cards) // players
         
