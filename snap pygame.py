@@ -3,8 +3,6 @@ import pygame.font
 import random
 import time
 from DeckOfCards import Player, DeckOfCards
-from enum import Enum
-import threading
 
 pygame.init()
 screen = pygame.display.set_mode((600,400))
@@ -110,52 +108,51 @@ def cards_animation(current_player):
     global first, card_counter
     backcard = pygame.image.load("Graphics/Vector Playing Cards/backcard.png")
     backcard = pygame.transform.scale(backcard, (85,115))
-    playerOneFinishedAnimating = False
+
     #Player 1
     if current_player == 1:
         if first == False:
-            screen.blit(load_playing_card_image(str(player_1_hand[card_counter - 1]) + ".png"), (260, 160))
-            screen.blit(load_playing_card_image(str(player_2_hand[card_counter - 1]) + ".png"), (280, 160))
-            screen.blit(load_playing_card_image(str(player_3_hand[card_counter - 1]) + ".png"), (300, 160))
-            screen.blit(load_playing_card_image(str(player_4_hand[card_counter - 1]) + ".png"), (320, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (320, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p1_card_x_pos, p1_card_y_pos))
         if p1_card_x_pos == 260 and p1_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(player_1_hand[card_counter]) + ".png"), (260, 160))
-            
+            screen.blit(load_playing_card_image(str(player_1_hand[0]) + ".png"), (260, 160))            
             
     #Player 2
     if current_player == 2:
-        
         if first == False:
-            screen.blit(load_playing_card_image(str(player_3_hand[card_counter - 1]) + ".png"), (300, 160))
-            screen.blit(load_playing_card_image(str(player_4_hand[card_counter - 1]) + ".png"), (320, 160))
-        screen.blit(load_playing_card_image(str(player_1_hand[card_counter]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (320, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p2_card_x_pos, p2_card_y_pos))
         if p2_card_x_pos == 280 and p2_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(player_2_hand[card_counter]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
             
 
     #Player 3
     elif current_player == 3:
         if first == False:
-            screen.blit(load_playing_card_image(str(player_4_hand[card_counter - 1]) + ".png"), (320, 160))
-        screen.blit(load_playing_card_image(str(player_1_hand[card_counter]) + ".png"), (260, 160))
-        screen.blit(load_playing_card_image(str(player_2_hand[card_counter]) + ".png"), (280, 160))    
+            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (320, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))    
         screen.blit(load_playing_card_image(("backcard.png")), (p3_card_x_pos, p3_card_y_pos))
         if p3_card_x_pos == 300 and p3_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(player_3_hand[card_counter]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (300, 160))
             
 
     #Player 4
     elif current_player == 4:
         if first == False:
-            screen.blit(load_playing_card_image(str(player_4_hand[card_counter - 1]) + ".png"), (320, 160))
-        screen.blit(load_playing_card_image(str(player_1_hand[card_counter]) + ".png"), (260, 160))
-        screen.blit(load_playing_card_image(str(player_2_hand[card_counter]) + ".png"), (280, 160))
-        screen.blit(load_playing_card_image(str(player_3_hand[card_counter]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-5]) + ".png"), (320, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (260, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
+        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p4_card_x_pos, p4_card_y_pos))
         if p4_card_x_pos == 320 and p4_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(player_4_hand[card_counter]) + ".png"), (320, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (320, 160))
+
                 
              
                     
@@ -184,9 +181,6 @@ p4_card_x_pos = 440
 p4_card_y_pos = 280
 
 first = True
-
-
-current_player = 1
 all_players_have_cards = True
 animation_time_start = time.time()
 counter = 1
@@ -204,7 +198,7 @@ while all_players_have_cards:
             if button_SNAP.collidepoint(event.pos):
                 print("SNAP Button was pressed")
                 
-    #animation      
+    #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 4)
     p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 6)
     p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 300, 160, 4)
@@ -219,20 +213,8 @@ while all_players_have_cards:
     else:
         screen.blit(text_SNAP, (190,300))
 
-    
-    #for current_player in range(1,5):
-    #    cards_animation(current_player)
-    #animation_timer = 0
-    #if animation_timer is None:
-    #    animation_timer = 0
-
-    #counter
-    #if counter is None:
-    #    
     #print((animation_time_start - time.time()))
-    if((time.time() - animation_time_start) > 1):
-        #animation_timer = 0
-        #print("time elapsed",(animation_time_start - time.time(), counter))
+    if((time.time() - animation_time_start) > 2):
         if counter < 4:
             counter += 1
         else:
@@ -240,8 +222,8 @@ while all_players_have_cards:
             first = False
             if card_counter < (len(player_1_hand) - 1):
                 card_counter += 1
-                print(card_counter)
-
+                #print(card_counter)
+                
         match counter:
             case 1:
                 p1_card_x_pos = 100
@@ -249,17 +231,30 @@ while all_players_have_cards:
             case 2:
                 p2_card_x_pos = 40
                 p2_card_y_pos = 52
+                central_pile.append(player_1_hand[0])
+                player_1_hand.pop(0)
+                central_pile.append(player_2_hand[0])                
+                player_2_hand.pop(0)
+                print(central_pile)
             case 3:
                 p3_card_x_pos = 452
                 p3_card_y_pos = 52 
+                central_pile.append(player_3_hand[0])
+                player_3_hand.pop(0)
             case 4:
                 p4_card_x_pos = 440
                 p4_card_y_pos = 280  
-        #cards_animation(1)
+                central_pile.append(player_4_hand[0])
+                player_4_hand.pop(0)
         animation_time_start = time.time()
+
     cards_animation(counter)
 
     pygame.display.update()
-
+    
+    for hand in players_hands:
+        check_player_card_count(hand)
+        
     clock.tick(60)
 
+print("Game Over")
