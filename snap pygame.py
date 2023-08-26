@@ -105,24 +105,24 @@ def draw_game_elements():
     
 def cards_animation(current_player):
     global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos 
-    global first, card_counter
+    global firstTurn, card_counter
     backcard = pygame.image.load("Graphics/Vector Playing Cards/backcard.png")
     backcard = pygame.transform.scale(backcard, (85,115))
 
     #Player 1
     if current_player == 1:
-        if first == False:
-            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (260, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (320, 160))
+        if firstTurn == False:
+            screen.blit(load_playing_card_image(str(central_pile[-5]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (320, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p1_card_x_pos, p1_card_y_pos))
         if p1_card_x_pos == 260 and p1_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(player_1_hand[0]) + ".png"), (260, 160))            
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (260, 160))            
             
     #Player 2
     if current_player == 2:
-        if first == False:
+        if firstTurn == False:
             screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
             screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (320, 160))
         screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
@@ -133,7 +133,7 @@ def cards_animation(current_player):
 
     #Player 3
     elif current_player == 3:
-        if first == False:
+        if firstTurn == False:
             screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (320, 160))
         screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))    
@@ -144,7 +144,7 @@ def cards_animation(current_player):
 
     #Player 4
     elif current_player == 4:
-        if first == False:
+        if firstTurn == False:
             screen.blit(load_playing_card_image(str(central_pile[-5]) + ".png"), (320, 160))
         screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
@@ -153,7 +153,21 @@ def cards_animation(current_player):
         if p4_card_x_pos == 320 and p4_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (320, 160))
 
-                
+def isSnap(central_pile):
+    if central_pile[-1].value == central_pile[-2].value:
+        return True
+    return False
+
+def add_cards():
+    random_player = random.randint(2,4)
+    if random_player == 2:
+        central_pile.append(player_2_hand)
+    if random_player == 3:
+        central_pile.append(player_3_hand)
+    if random_player == 4:
+        central_pile.append(player_4_hand)
+    central_pile.clear()
+        
              
                     
 #inititialize the deck of cards
@@ -180,10 +194,10 @@ p3_card_y_pos = 52
 p4_card_x_pos = 440
 p4_card_y_pos = 280
 
-first = True
+firstTurn = True
 all_players_have_cards = True
 animation_time_start = time.time()
-counter = 1
+current_player = 0
 card_counter = 0
 
 while all_players_have_cards:
@@ -194,9 +208,17 @@ while all_players_have_cards:
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print("Mouse cursor location:", pygame.mouse.get_pos())
+            #print("Mouse cursor location:", pygame.mouse.get_pos())
             if button_SNAP.collidepoint(event.pos):
-                print("SNAP Button was pressed")
+                if isSnap(central_pile):
+                    print("YOU CALLED SNAP!")
+                    player_1_hand.append(central_pile)
+                    central_pile.clear()
+                else:
+                    print("Not a SNAP")
+                
+                
+                
                 
     #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 4)
@@ -214,41 +236,54 @@ while all_players_have_cards:
         screen.blit(text_SNAP, (190,300))
 
     #print((animation_time_start - time.time()))
+    
     if((time.time() - animation_time_start) > 2):
-        if counter < 4:
-            counter += 1
+        if current_player < 4:
+            current_player += 1
         else:
-            counter = 1
-            first = False
+            current_player = 1
+            firstTurn = False
             if card_counter < (len(player_1_hand) - 1):
                 card_counter += 1
                 #print(card_counter)
-                
-        match counter:
+
+        match current_player:
             case 1:
                 p1_card_x_pos = 100
                 p1_card_y_pos = 300
+                central_pile.append(player_1_hand[0])
+                player_1_hand.pop(0)
             case 2:
                 p2_card_x_pos = 40
                 p2_card_y_pos = 52
-                central_pile.append(player_1_hand[0])
-                player_1_hand.pop(0)
                 central_pile.append(player_2_hand[0])                
                 player_2_hand.pop(0)
-                print(central_pile)
+                if isSnap(central_pile):
+                    add_cards()
+                 
             case 3:
                 p3_card_x_pos = 452
                 p3_card_y_pos = 52 
                 central_pile.append(player_3_hand[0])
                 player_3_hand.pop(0)
+                if isSnap(central_pile):
+                    add_cards()
+                    
             case 4:
                 p4_card_x_pos = 440
                 p4_card_y_pos = 280  
                 central_pile.append(player_4_hand[0])
                 player_4_hand.pop(0)
+                if isSnap(central_pile):
+                    add_cards()
+    #note to self, problem is occuring after the central pile clear, the card animation doesn't work because there is no next card to show (goes by central pile)                    
+                    
         animation_time_start = time.time()
+        
+    if current_player > 0:
+        cards_animation(current_player)
+        
 
-    cards_animation(counter)
 
     pygame.display.update()
     

@@ -29,8 +29,10 @@ class DeckOfCards:
         Returns:
         cards (list): A list of 52 Card objects.
         """
-        valueList = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
-        suitList = ["Hearts", "Diamonds", "Spades", "Clubs"]    
+        #valueList = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+        valueList = ["2", "Ace"]
+        #suitList = ["Hearts", "Diamonds", "Spades", "Clubs"]    
+        suitList = ["Hearts", "Hearts", "Hearts", "Hearts"]    
         self.cards = []
         for suit in suitList:
             for value in valueList:
