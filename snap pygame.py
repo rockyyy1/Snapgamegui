@@ -112,10 +112,8 @@ def cards_animation(current_player):
     #Player 1
     if current_player == 1:
         if firstTurn == False:
-            screen.blit(load_playing_card_image(str(central_pile[-5]) + ".png"), (260, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (280, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (300, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (320, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p1_card_x_pos, p1_card_y_pos))
         if p1_card_x_pos == 260 and p1_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (260, 160))            
@@ -123,9 +121,10 @@ def cards_animation(current_player):
     #Player 2
     if current_player == 2:
         if firstTurn == False:
-            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
-            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (320, 160))
-        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
+        else:
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p2_card_x_pos, p2_card_y_pos))
         if p2_card_x_pos == 280 and p2_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
@@ -133,24 +132,26 @@ def cards_animation(current_player):
     #Player 3
     elif current_player == 3:
         if firstTurn == False:
-            screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (320, 160))
-        #print player 1 & 2's card 
-        screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
-        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))    
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))    
+        else:
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p3_card_x_pos, p3_card_y_pos))
-        if p3_card_x_pos == 300 and p3_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (300, 160))
+        if p3_card_x_pos == 260 and p3_card_y_pos == 160:
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (260, 160))
             
     #Player 4
     elif current_player == 4:
         if firstTurn == False:
-            screen.blit(load_playing_card_image(str(central_pile[-5]) + ".png"), (320, 160))
-        screen.blit(load_playing_card_image(str(central_pile[-4]) + ".png"), (260, 160))
-        screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
-        screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (300, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
+        else:
+            screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p4_card_x_pos, p4_card_y_pos))
-        if p4_card_x_pos == 320 and p4_card_y_pos == 160:
-            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (320, 160))
+        if p4_card_x_pos == 280 and p4_card_y_pos == 160:
+            screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
 
 def isSnap(central_pile):
     if central_pile[-1].value == central_pile[-2].value:
@@ -241,8 +242,8 @@ while all_players_have_cards:
     #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 4)
     p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 6)
-    p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 300, 160, 4)
-    p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 320, 160, 4)
+    p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 4)
+    p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 4)
         
     draw_game_elements()
     pos = pygame.mouse.get_pos()
