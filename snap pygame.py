@@ -228,7 +228,7 @@ player_4_hand = players_hands[3]
 p1_card_x_pos = 98
 p1_card_y_pos = 298    
 p2_card_x_pos = 40
-p2_card_y_pos = 52    
+p2_card_y_pos = 56    
 p3_card_x_pos = 452
 p3_card_y_pos = 52   
 p4_card_x_pos = 442
@@ -237,7 +237,7 @@ p4_card_y_pos = 280
 firstTurn = True
 all_players_have_cards = True
 animation_time_start = time.time()
-opportunity_start_time = time.time()
+opportunity_start_time = time.time() + 12
 current_player = 0
 card_counter = 0
 #initialize game states
@@ -274,7 +274,7 @@ while all_players_have_cards:
                 
     #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 6)
-    p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 6)
+    p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 8)
     p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 6)
     p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 6)
         
@@ -289,9 +289,10 @@ while all_players_have_cards:
 
     #if animation takes more than 2 seconds, finish animation.
     if((time.time() - animation_time_start) > 2):
-        #if the user has not clicked the button after 2 seconds of the animation time ending
-        pygame.time.delay(3000)
-        if ((time.time() - opportunity_start_time) >= 5):
+        #pygame.time.delay(3000)
+        pygame.time.set_timer(pygame.USEREVENT, 3000)
+        #print((opportunity_start_time - time.time()))
+        if ((opportunity_start_time - time.time()) > 9):
             automatic_snap_triggered = True 
             if not user_click_detected and len(central_pile) >= 2:
                 if isSnap(central_pile):
@@ -335,7 +336,7 @@ while all_players_have_cards:
                 player_1_hand.pop(0)
             case 2:
                 p2_card_x_pos = 40
-                p2_card_y_pos = 52
+                p2_card_y_pos = 56
                 if len(player_2_hand) == 0:
                     print("Player 2 has run out of cards!")
                     displayWinner()
@@ -362,7 +363,7 @@ while all_players_have_cards:
                 player_4_hand.pop(0)
         
         #reset times
-        opportunity_start_time = time.time()
+        opportunity_start_time = time.time() + 12
         animation_time_start = time.time()
         
     if current_player > 0:
