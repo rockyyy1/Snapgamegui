@@ -2,7 +2,7 @@ import pygame
 import pygame.font
 import random
 import time
-from DeckOfCards import Player, DeckOfCards
+from DeckOfCards import Player
 
 pygame.init()
 screen = pygame.display.set_mode((600,400))
@@ -11,12 +11,15 @@ clock = pygame.time.Clock()
 font_file = "Graphics/disko_ot.otf"
 
 def load_permanent_surfaces():
+    """Load background, images and text surfaces"""
+    
     global green_background_surface, python_playing_cards_surface, text_SNAP, button_SNAP, text_you, font_hover, text_hover
     
     #permanent surfaces
     green_background_surface = pygame.image.load("Graphics/green_background.png")
     python_playing_cards_surface = pygame.image.load("Graphics/pythonplayingcards.png")
     python_playing_cards_surface = pygame.transform.scale(python_playing_cards_surface, (python_playing_cards_surface.get_width() // 4, python_playing_cards_surface.get_height() //4))
+    screen.blit(green_background_surface, (0, 0))
 
     #snap button
     font_SNAP = pygame.font.Font(font_file, 100)
@@ -28,9 +31,35 @@ def load_permanent_surfaces():
     text_you = font_you.render("you", True, (0,0,0))
     font_hover = pygame.font.Font(font_file, 25)
     text_hover = font_hover.render("(click below!/spacebar)", True, (0,0,0))
+    screen.blit(text_hover, (175,280))
+    
+    
+    # Draw player 1's elements
+    screen.blit(player_1_emoji, (0,300)) 
+    screen.blit(python_playing_cards_surface,(90,290))
+    screen.blit(text_you, (30,280))
+    
+    # Draw player 2's elements
+    screen.blit(player_2_emoji, (0,0)) 
+    screen.blit(python_playing_cards_surface,(40,50))
 
+    # Draw player 3's elements
+    screen.blit(player_3_emoji, (500,0)) 
+    screen.blit(python_playing_cards_surface,(450,50))
 
+    # Draw player 4's elements
+    screen.blit(player_4_emoji, (500,300)) 
+    screen.blit(python_playing_cards_surface,(440,280))
+    
 def load_playing_card_image(card):
+    """Loads an image from file containing playing card images
+
+    Args:
+        card (str): The name of the card e.g "Ace of Spades"
+
+    Returns:
+        playing_card_image: an image file of the argument 
+    """
     playing_card_image = pygame.image.load("Graphics/Vector Playing Cards/"+ card)
     playing_card_image = pygame.transform.scale(playing_card_image, (85,115))
     
@@ -65,6 +94,15 @@ def random_emoji():
     return player_1_emoji, player_2_emoji, player_3_emoji, player_4_emoji
 
 def isHandEmpty(hand):
+    """Checks if the number of cards in hand is 0
+
+    Args:
+        hand (list): The player's hand
+
+    Returns:
+        True if list is empty
+        False if list is not empty
+    """
     cards_in_hand = len(hand)
     if cards_in_hand == 0:
         return True
@@ -72,6 +110,18 @@ def isHandEmpty(hand):
         return False
 
 def update_card_position(x, y, target_x, target_y, step):
+    """Moves card position each frame by a step if not at target destination
+
+    Args:
+        x (int): the current x position
+        y (int): the current y position
+        target_x (int): final x position
+        target_y (int): final y position
+        step (int): how much card (pixels) move each frame
+
+    Returns:
+        x,y (int): next card position
+    """
     if x < target_x:
         x += step
     elif x > target_x:
@@ -82,29 +132,12 @@ def update_card_position(x, y, target_x, target_y, step):
         y -= step
     return x, y
 
-def draw_game_elements():
-    screen.blit(green_background_surface, (0, 0))
-    
-    # Draw player 1's elements
-    screen.blit(player_1_emoji, (0,300)) 
-    screen.blit(python_playing_cards_surface,(90,290))
-    screen.blit(text_you, (30,280))
-    
-    # Draw player 2's elements
-    screen.blit(player_2_emoji, (0,0)) 
-    screen.blit(python_playing_cards_surface,(40,50))
-
-    # Draw player 3's elements
-    screen.blit(player_3_emoji, (500,0)) 
-    screen.blit(python_playing_cards_surface,(450,50))
-
-    # Draw player 4's elements
-    screen.blit(player_4_emoji, (500,300)) 
-    screen.blit(python_playing_cards_surface,(440,280))
-    
-    screen.blit(text_hover, (175,280))
-    
 def cards_animation(current_player):
+    """Draws the moving playing back card and card played faced up
+
+    Args:
+        current_player (int): The player turning over a card (1-4)
+    """
     global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos 
     global card_counter, firstTurn
     backcard = pygame.image.load("Graphics/Vector Playing Cards/backcard.png")
@@ -171,12 +204,23 @@ def cards_animation(current_player):
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
 
 def isSnap(central_pile):
+    """Checks the two latest cards in Pile if they match in value
+
+    Args:
+        central_pile (list): The Pile where cards are being discarded into
+
+    Returns:
+        True if two cards match
+        False if they do not match
+    """
     if len(central_pile) > 1:
         if central_pile[-1].value == central_pile[-2].value:
             return True
     return False
 
 def snap_call():
+    """Chooses a random player (not player 1) to call snap and collect the central pile
+    """
     random_player = random.randint(2,4)
     
     if random_player == 2:
@@ -198,6 +242,8 @@ def snap_call():
     pygame.display.update()
 
 def displayWinner():
+    """Checks to see which player has the most cards and declares the winner
+    """
     card_counts = []
     for hands in players_hands:
         card_counts.append(len(hands))
@@ -251,7 +297,6 @@ while all_players_have_cards:
     load_permanent_surfaces()
     for event in pygame.event.get():
         screen.blit(text_SNAP, button_SNAP)
-        #pygame.draw.rect(screen, (0,0,0), button_SNAP)
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -265,7 +310,6 @@ while all_players_have_cards:
               
         if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             if len(central_pile) >= 2:
-                #print("Mouse cursor location:", pygame.mouse.get_pos())
                 user_snap_detected = True
                 if isSnap(central_pile) == True:
                     if not automatic_snap_triggered:
@@ -288,7 +332,6 @@ while all_players_have_cards:
     p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 6)
     p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 6)
         
-    draw_game_elements()
     pos = pygame.mouse.get_pos()
     if button_SNAP.collidepoint(pos) : 
         font_SNAP = pygame.font.Font(font_file, 110)
@@ -299,7 +342,6 @@ while all_players_have_cards:
  
     #if animation takes more than 2 seconds, finish animation.
     if((time.time() - animation_time_start) > 2):
-        #pygame.time.delay(3000)
         pygame.time.set_timer(pygame.USEREVENT, 3000)
         #print((opportunity_start_time - time.time()))
         if ((opportunity_start_time - time.time()) > 9):
