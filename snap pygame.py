@@ -63,12 +63,12 @@ def random_emoji():
     
     return player_1_emoji, player_2_emoji, player_3_emoji, player_4_emoji
 
-def check_player_card_count(hand):
-            cards_in_hand = len(hand)
-            if cards_in_hand == 0:
-                return False
-            else:
-                return True
+def isHandEmpty(hand):
+    cards_in_hand = len(hand)
+    if cards_in_hand == 0:
+        return True
+    else:
+        return False
 
 def update_card_position(x, y, target_x, target_y, step):
     if x < target_x:
@@ -119,7 +119,7 @@ def cards_animation(current_player):
             elif firstTurn:
                 if len(central_pile) > 2:
                     screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
-                screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p1_card_x_pos, p1_card_y_pos))
         if p1_card_x_pos == 260 and p1_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (260, 160))            
@@ -134,7 +134,7 @@ def cards_animation(current_player):
             elif firstTurn:
                 if len(central_pile) > 2:
                     screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
-                screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p2_card_x_pos, p2_card_y_pos))
         if p2_card_x_pos == 280 and p2_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
@@ -149,7 +149,7 @@ def cards_animation(current_player):
             elif firstTurn:
                 if len(central_pile) > 2:
                   screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (260, 160))
-                screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (280, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p3_card_x_pos, p3_card_y_pos))
         if p3_card_x_pos == 260 and p3_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (260, 160))
@@ -164,7 +164,7 @@ def cards_animation(current_player):
             elif firstTurn:
                 if len(central_pile) > 2:
                     screen.blit(load_playing_card_image(str(central_pile[-3]) + ".png"), (280, 160))
-                screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
+            screen.blit(load_playing_card_image(str(central_pile[-2]) + ".png"), (260, 160))
         screen.blit(load_playing_card_image(("backcard.png")), (p4_card_x_pos, p4_card_y_pos))
         if p4_card_x_pos == 280 and p4_card_y_pos == 160:
             screen.blit(load_playing_card_image(str(central_pile[-1]) + ".png"), (280, 160))
@@ -193,10 +193,22 @@ def snap_call():
             player_4_hand.append(i)
         print("player 4 called SNAP")
 
-    load_permanent_surfaces()
-    pygame.display.update()
     central_pile.clear()
+    pygame.display.update()
 
+def displayWinner():
+    card_counts = []
+    for hands in players_hands:
+        card_counts.append(len(hands))
+    winner = 0
+    most_cards = 0
+    for i in range(len(card_counts)):
+        if card_counts[i] > most_cards:
+            most_cards = card_counts[i]
+            winner = i + 1
+    print()
+    print("GAME OVER")
+    print(f"Player {winner} has won the game with {most_cards} cards!")
     
 #inititialize the deck of cards
 play = Player()
@@ -213,13 +225,13 @@ player_3_hand = players_hands[2]
 player_4_hand = players_hands[3]
 
 #initial starting card positions
-p1_card_x_pos = 100
-p1_card_y_pos = 300    
+p1_card_x_pos = 98
+p1_card_y_pos = 298    
 p2_card_x_pos = 40
 p2_card_y_pos = 52    
 p3_card_x_pos = 452
 p3_card_y_pos = 52   
-p4_card_x_pos = 440
+p4_card_x_pos = 442
 p4_card_y_pos = 280
 
 firstTurn = True
@@ -257,13 +269,14 @@ while all_players_have_cards:
                 player_snap_success = False
                 automatic_snap_triggered = False
                 user_click_detected = False
+            pygame.display.update()
 
                 
     #update card positions each frame      
-    p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 4)
+    p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 6)
     p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 6)
-    p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 4)
-    p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 4)
+    p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 6)
+    p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 6)
         
     draw_game_elements()
     pos = pygame.mouse.get_pos()
@@ -277,8 +290,8 @@ while all_players_have_cards:
     #if animation takes more than 2 seconds, finish animation.
     if((time.time() - animation_time_start) > 2):
         #if the user has not clicked the button after 2 seconds of the animation time ending
-        pygame.time.delay(2000)
-        if ((time.time() - opportunity_start_time) >  4):
+        pygame.time.delay(3000)
+        if ((time.time() - opportunity_start_time) >= 5):
             automatic_snap_triggered = True 
             if not user_click_detected and len(central_pile) >= 2:
                 if isSnap(central_pile):
@@ -286,43 +299,65 @@ while all_players_have_cards:
                     snap_call()
             
         if current_player < 4:
-            automatic_snap_triggered = False
             if player_snap_success == True:
                 central_pile.clear()
+            automatic_snap_triggered = False
             user_click_detected = False
             player_snap_success = False
             pygame.event.clear()
-            pygame.display.update()
             pygame.time.delay(1000)
             current_player += 1
 
         else:
-            current_player = 1
+            if player_snap_success == True:
+                central_pile.clear()
+            automatic_snap_triggered = False
+            user_click_detected = False
+            player_snap_success = False
+            pygame.event.clear()
+            pygame.time.delay(1000)
             firstTurn = False
             if card_counter < (len(player_1_hand) - 1):
                 card_counter += 1
                 #print(card_counter)
+            current_player = 1
         
         #reset card positions and add to central pile
         match current_player:
             case 1:
-                p1_card_x_pos = 100
-                p1_card_y_pos = 300
+                p1_card_x_pos = 98
+                p1_card_y_pos = 298
+                if len(player_1_hand) == 0:
+                    print("Player 1 has run out of cards!")
+                    displayWinner()
+                    break
                 central_pile.append(player_1_hand[0])
                 player_1_hand.pop(0)
             case 2:
                 p2_card_x_pos = 40
                 p2_card_y_pos = 52
+                if len(player_2_hand) == 0:
+                    print("Player 2 has run out of cards!")
+                    displayWinner()
+                    break
                 central_pile.append(player_2_hand[0])
                 player_2_hand.pop(0)
             case 3:
                 p3_card_x_pos = 452
                 p3_card_y_pos = 52 
+                if len(player_3_hand) == 0:
+                    print("Player 3 has run out of cards!")
+                    displayWinner()
+                    break
                 central_pile.append(player_3_hand[0])
                 player_3_hand.pop(0)
             case 4:
-                p4_card_x_pos = 440
+                p4_card_x_pos = 442
                 p4_card_y_pos = 280  
+                if len(player_4_hand) == 0:
+                    print("Player 4 has run out of cards!")
+                    displayWinner()
+                    break
                 central_pile.append(player_4_hand[0])
                 player_4_hand.pop(0)
         
@@ -332,14 +367,9 @@ while all_players_have_cards:
         
     if current_player > 0:
         cards_animation(current_player)
-        
-
 
     pygame.display.update()
-    
-    for hand in players_hands:
-        check_player_card_count(hand)
+            
         
     clock.tick(60)
 
-print("Game Over")
