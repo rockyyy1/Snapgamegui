@@ -139,7 +139,7 @@ def cards_animation(current_player):
         current_player (int): The player turning over a card (1-4)
     """
     global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos 
-    global card_counter, firstTurn
+    global firstTurn
     backcard = pygame.image.load("Graphics/Vector Playing Cards/backcard.png")
     backcard = pygame.transform.scale(backcard, (85,115))
         
@@ -253,7 +253,6 @@ def displayWinner():
         if card_counts[i] > most_cards:
             most_cards = card_counts[i]
             winner = i + 1
-    print()
     print("GAME OVER")
     print(f"Player {winner} has won the game with {most_cards} cards!")
     
@@ -281,63 +280,60 @@ p3_card_y_pos = 52
 p4_card_x_pos = 442
 p4_card_y_pos = 280
 
-firstTurn = True
-all_players_have_cards = True
 animation_time_start = time.time()
 opportunity_start_time = time.time() + 12
 current_player = 0
-card_counter = 0
 #initialize game states
+firstTurn = True
 user_snap_detected = False
 automatic_snap_triggered = False
 player_snap_success = False
-space_pressed = False
-
-while all_players_have_cards:
+all_player_have_cards =  True
+user_has_snapped = False
+while all_player_have_cards:
     load_permanent_surfaces()
     for event in pygame.event.get():
-        screen.blit(text_SNAP, button_SNAP)
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             font_SNAP = pygame.font.Font(font_file, 110)
             text_SNAP = font_SNAP.render("SNAP", True, (255, 0, 0))
-            space_pressed = True
-        if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
-            font_SNAP = pygame.font.Font(font_file, 100)
-            text_SNAP = font_SNAP.render("SNAP", True, (0, 0, 0))
-            space_pressed = False
-              
+            screen.blit(text_SNAP, (190,300))        
         if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            if len(central_pile) >= 2:
+            if not user_has_snapped:
+                user_has_snapped = True
                 user_snap_detected = True
-                if isSnap(central_pile) == True:
-                    if not automatic_snap_triggered:
-                        print("YOU CALLED SNAP!")
-                        for i in central_pile:
-                            player_1_hand.append(i)
-                        player_snap_success = True
-                    else:
-                        print("someone beat you to it!")                        
-                else: 
-                    print("Not a SNAP")
-                    player_snap_success = False
-                    automatic_snap_triggered = False
-                    user_snap_detected = False
-
                 
+                if len(central_pile) >= 2:
+                    if isSnap(central_pile) == True:
+                        if not automatic_snap_triggered:
+                            print("YOU CALLED SNAP!")
+                            for i in central_pile:
+                                player_1_hand.append(i)
+                            player_snap_success = True                      
+                    else:
+                        print("NOT A SNAP - you lose a card :(")
+                        #append last card to start of central pile and pop last card in hand
+                        if len(player_1_hand) < 1:
+                            displayWinner()
+                            all_player_have_cards = False
+                        central_pile.insert(0, player_1_hand[-1])
+                        player_1_hand.pop()
+                        player_snap_success = False
+                        automatic_snap_triggered = False
+                        user_snap_detected = False
+
     #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = update_card_position(p1_card_x_pos, p1_card_y_pos, 260, 160, 6)
     p2_card_x_pos, p2_card_y_pos = update_card_position(p2_card_x_pos, p2_card_y_pos, 280, 160, 8)
     p3_card_x_pos, p3_card_y_pos = update_card_position(p3_card_x_pos, p3_card_y_pos, 260, 160, 6)
     p4_card_x_pos, p4_card_y_pos = update_card_position(p4_card_x_pos, p4_card_y_pos, 280, 160, 6)
-        
+    
+    #hover over button will make it red    
     pos = pygame.mouse.get_pos()
     if button_SNAP.collidepoint(pos) : 
         font_SNAP = pygame.font.Font(font_file, 110)
         text_SNAP = font_SNAP.render("SNAP", True, (255,0,0))
-        screen.blit(text_SNAP, (190,300))
-    else:
         screen.blit(text_SNAP, (190,300))
  
     #if animation takes more than 2 seconds, finish animation.
@@ -348,34 +344,24 @@ while all_players_have_cards:
             automatic_snap_triggered = True 
             if not user_snap_detected and len(central_pile) >= 2:
                 if isSnap(central_pile):
-                    #another player calls snap
+                #another player calls snap
                     snap_call()
-            
+    
+    #reset game states after snaps
+        if player_snap_success:
+            central_pile.clear()
+        automatic_snap_triggered = False
+        user_snap_detected = False
+        player_snap_success = False
+        pygame.event.clear()
+        pygame.time.delay(1000)
         if current_player < 4:
-            if player_snap_success == True:
-                central_pile.clear()
-            automatic_snap_triggered = False
-            user_snap_detected = False
-            player_snap_success = False
-            pygame.event.clear()
-            pygame.time.delay(1000)
-            current_player += 1
-
+              current_player += 1
+              user_has_snapped = False
         else:
-            if player_snap_success == True:
-                central_pile.clear()
-            automatic_snap_triggered = False
-            user_snap_detected = False
-            player_snap_success = False
-            pygame.event.clear()
-            pygame.time.delay(1000)
             firstTurn = False
-            if card_counter < (len(player_1_hand) - 1):
-                card_counter += 1
-                #print(card_counter)
             current_player = 1
         
-        #reset card positions and add to central pile
         match current_player:
             case 1:
                 p1_card_x_pos = 98
@@ -413,7 +399,7 @@ while all_players_have_cards:
                     break
                 central_pile.append(player_4_hand[0])
                 player_4_hand.pop(0)
-        
+
         #reset times
         opportunity_start_time = time.time() + 12
         animation_time_start = time.time()
@@ -422,7 +408,5 @@ while all_players_have_cards:
         cards_animation(current_player)
 
     pygame.display.update()
-            
-        
     clock.tick(60)
 
