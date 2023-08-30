@@ -314,9 +314,11 @@ while all_player_have_cards:
                     else:
                         print("NOT A SNAP - you lose a card :(")
                         #append last card to start of central pile and pop last card in hand
-                        if len(player_1_hand) < 1:
+                        if len(player_1_hand) == 1:
+                            print("You ran out of cards")
                             displayWinner()
                             all_player_have_cards = False
+                            break
                         central_pile.insert(0, player_1_hand[-1])
                         player_1_hand.pop()
                         player_snap_success = False
