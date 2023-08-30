@@ -27,7 +27,8 @@ def load_permanent_surfaces():
     font_you = pygame.font.Font(font_file, 30)
     text_you = font_you.render("you", True, (0,0,0))
     font_hover = pygame.font.Font(font_file, 25)
-    text_hover = font_hover.render("(click below!)", True, (0,0,0))
+    text_hover = font_hover.render("(click below!/spacebar)", True, (0,0,0))
+
 
 def load_playing_card_image(card):
     playing_card_image = pygame.image.load("Graphics/Vector Playing Cards/"+ card)
@@ -101,7 +102,7 @@ def draw_game_elements():
     screen.blit(player_4_emoji, (500,300)) 
     screen.blit(python_playing_cards_surface,(440,280))
     
-    screen.blit(text_hover, (230,280))
+    screen.blit(text_hover, (175,280))
     
 def cards_animation(current_player):
     global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos 
@@ -241,35 +242,44 @@ opportunity_start_time = time.time() + 12
 current_player = 0
 card_counter = 0
 #initialize game states
-user_click_detected = False
+user_snap_detected = False
 automatic_snap_triggered = False
 player_snap_success = False
+space_pressed = False
 
 while all_players_have_cards:
     load_permanent_surfaces()
     for event in pygame.event.get():
         screen.blit(text_SNAP, button_SNAP)
-        pygame.draw.rect(screen, (255,0,0), button_SNAP, 2)
+        #pygame.draw.rect(screen, (0,0,0), button_SNAP)
         if event.type == pygame.QUIT:
             exit()
-            
-        if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) and len(central_pile) >= 2:
-            #print("Mouse cursor location:", pygame.mouse.get_pos())
-            user_click_detected = True
-            if isSnap(central_pile) == True:
-                if not automatic_snap_triggered:
-                    print("YOU CALLED SNAP!")
-                    for i in central_pile:
-                        player_1_hand.append(i)
-                    player_snap_success = True
-                else:
-                    print("someone beat you to it!")                        
-            else: 
-                print("Not a SNAP")
-                player_snap_success = False
-                automatic_snap_triggered = False
-                user_click_detected = False
-            pygame.display.update()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            font_SNAP = pygame.font.Font(font_file, 110)
+            text_SNAP = font_SNAP.render("SNAP", True, (255, 0, 0))
+            space_pressed = True
+        if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
+            font_SNAP = pygame.font.Font(font_file, 100)
+            text_SNAP = font_SNAP.render("SNAP", True, (0, 0, 0))
+            space_pressed = False
+              
+        if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            if len(central_pile) >= 2:
+                #print("Mouse cursor location:", pygame.mouse.get_pos())
+                user_snap_detected = True
+                if isSnap(central_pile) == True:
+                    if not automatic_snap_triggered:
+                        print("YOU CALLED SNAP!")
+                        for i in central_pile:
+                            player_1_hand.append(i)
+                        player_snap_success = True
+                    else:
+                        print("someone beat you to it!")                        
+                else: 
+                    print("Not a SNAP")
+                    player_snap_success = False
+                    automatic_snap_triggered = False
+                    user_snap_detected = False
 
                 
     #update card positions each frame      
@@ -280,13 +290,13 @@ while all_players_have_cards:
         
     draw_game_elements()
     pos = pygame.mouse.get_pos()
-    if button_SNAP.collidepoint(pos):
+    if button_SNAP.collidepoint(pos) : 
         font_SNAP = pygame.font.Font(font_file, 110)
         text_SNAP = font_SNAP.render("SNAP", True, (255,0,0))
         screen.blit(text_SNAP, (190,300))
     else:
         screen.blit(text_SNAP, (190,300))
-
+ 
     #if animation takes more than 2 seconds, finish animation.
     if((time.time() - animation_time_start) > 2):
         #pygame.time.delay(3000)
@@ -294,7 +304,7 @@ while all_players_have_cards:
         #print((opportunity_start_time - time.time()))
         if ((opportunity_start_time - time.time()) > 9):
             automatic_snap_triggered = True 
-            if not user_click_detected and len(central_pile) >= 2:
+            if not user_snap_detected and len(central_pile) >= 2:
                 if isSnap(central_pile):
                     #another player calls snap
                     snap_call()
@@ -303,7 +313,7 @@ while all_players_have_cards:
             if player_snap_success == True:
                 central_pile.clear()
             automatic_snap_triggered = False
-            user_click_detected = False
+            user_snap_detected = False
             player_snap_success = False
             pygame.event.clear()
             pygame.time.delay(1000)
@@ -313,7 +323,7 @@ while all_players_have_cards:
             if player_snap_success == True:
                 central_pile.clear()
             automatic_snap_triggered = False
-            user_click_detected = False
+            user_snap_detected = False
             player_snap_success = False
             pygame.event.clear()
             pygame.time.delay(1000)
