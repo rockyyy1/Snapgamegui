@@ -35,7 +35,7 @@ The game ends when a player has run out cards and the player with the most cards
 ## Credits & Acknowledgment:  
 All materials used are freeware
 
-Made with Pygame:
+Made with Pygame modules:
 [https://www.pygame.org/wiki/about]
 
 Green_background image:  
