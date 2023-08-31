@@ -1,8 +1,23 @@
 # Snapgamegui
 
 A game of Snap.
+![image](https://github.com/rockyyy1/Snapgamegui/assets/124854700/4e40c38c-e27e-49ca-850c-385b40a9022f)
 
-How to Play:
+## Installation
+Pygame requires Python; if you don't already have it, you can download it from python.org. It's recommended to run the latest python version, because it's usually faster and has better features than the older ones. Bear in mind that pygame has dropped support for python 2.
+
+The best way to install pygame is with the pip tool (which is what python uses to install packages). Note, this comes with python in recent versions. We use the --user flag to tell it to install into the home directory, rather than globally.
+```
+python3 -m pip install -U pygame --user
+```
+To see if it works, run one of the included examples:
+```
+python3 -m pygame.examples.aliens
+```
+If it works, you are ready to go! If not there are more detailed, platform-specific instructions further down the page.
+
+
+## How to Play:  
 When the program is run, a deck of 52 cards are shuffled and 13 are dealt to the 4 players.  
 You are the player in the bottom-left corner.  
 Each player (starting with you) will place one card in the center, when the top two cards are identical in value, the first player to call snap wins the entire pile into their hand.  
@@ -11,7 +26,9 @@ The game ends when a player has run out cards and the player with the most cards
 
 
 
-Credits:  
+##Credits:  
+Made with Pygame:
+[https://www.pygame.org/wiki/about]
 
 Green_background image:  
 Designed by Freepik  
