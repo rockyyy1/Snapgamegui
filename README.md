@@ -1,7 +1,7 @@
 # Snapgamegui
 
+![image](https://github.com/rockyyy1/Snapgamegui/assets/124854700/4e40c38c-e27e-49ca-850c-385b40a9022f)  
 A game of Snap.
-![image](https://github.com/rockyyy1/Snapgamegui/assets/124854700/4e40c38c-e27e-49ca-850c-385b40a9022f)
 
 ## Installation
 Pygame requires Python; if you don't already have it, you can download it from python.org. It's recommended to run the latest python version, because it's usually faster and has better features than the older ones. Bear in mind that pygame has dropped support for python 2.
@@ -26,7 +26,7 @@ The game ends when a player has run out cards and the player with the most cards
 
 
 
-##Credits:  
+## Credits:  
 Made with Pygame:
 [https://www.pygame.org/wiki/about]
 
