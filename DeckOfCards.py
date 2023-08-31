@@ -47,8 +47,8 @@ class DeckOfCards:
         Returns:
         None
         """
-        for card in self.cards:
-            print(card)
+        #for card in self.cards:
+        #    print(card)
         
     def shuffle(self):
         """Shuffles list of cards randomly
@@ -87,10 +87,10 @@ class DeckOfCards:
                 player_hand.append(card)
                 
         player_number = 1
-        for player_hand in hands:
-            print(f"Player {player_number}:", player_hand)
-            player_number += 1
-        print()        
+        # for player_hand in hands:
+        #     print(f"Player {player_number}:", player_hand)
+        #     player_number += 1
+        # print()        
         return(hands)
 
 class Player(DeckOfCards):
