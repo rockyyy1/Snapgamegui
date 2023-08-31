@@ -28,7 +28,7 @@ When the program starts, a deck of 52 cards is shuffled and 13 are dealt to the 
 You are the player in the bottom-left corner.  
 Each player (starting with you) will move a card to the center, when the top two cards are identical in value, the first player to call snap wins the entire pile into their hand.  
 To call SNAP, you can click in the button in the center bottom or press the SPACEBAR key  
-(Be careful! if you call SNAP incorrectly, you'll lose more cards)  
+_(Be careful! if you call SNAP incorrectly, you'll lose a card!)_  
 The game ends when a player has run out cards and the player with the most cards wins.  
 
 
