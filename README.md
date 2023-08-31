@@ -21,7 +21,7 @@ Then download the released version:
 |--------|
 [Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)
 
-Finally, run the program!
+Finally, run the program "snap pygame.py" 
 
 ## How to Play:  
 When the program starts, a deck of 52 cards is shuffled and 13 are dealt to the 4 players.  
