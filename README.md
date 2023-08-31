@@ -19,7 +19,7 @@ If it works, you are ready to go! If not there are more detailed, platform-speci
 Then download the released version:
 | Windows |
 |--------|
-[[Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)]
+[Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)
 
 Finally, run the program!
 
