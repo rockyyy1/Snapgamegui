@@ -58,3 +58,8 @@ bvfonts.com
 Vector Playing card images:  
 Author: Byron Knoll  
 https://byronknoll.blogspot.com/2011/03/vector-playing-cards.html  
+
+Python Logo:
+https://www.python.org/community/logos/  
+The Python logo is the property of the Python Software Foundation (PSF). I am not affiliated with the PSF and do not claim to be. I am using the Python logo for non-commercial purposes only.  
+I am not affiliated with the Python Software Foundation (PSF). The Python logo is used on this site only to identify my use of Python programming language.  
