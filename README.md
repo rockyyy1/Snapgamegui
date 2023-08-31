@@ -16,22 +16,23 @@ python3 -m pygame.examples.aliens
 ```
 If it works, you are ready to go! If not there are more detailed, platform-specific instructions at https://www.pygame.org
 
+Then download the released version:
 | Windows |
 |--------|
-[[Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)
-]
+[[Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)]
 
+Finally, run the program!
 
 ## How to Play:  
-When the program is run, a deck of 52 cards are shuffled and 13 are dealt to the 4 players.  
+When the program starts, a deck of 52 cards is shuffled and 13 are dealt to the 4 players.  
 You are the player in the bottom-left corner.  
-Each player (starting with you) will place one card in the center, when the top two cards are identical in value, the first player to call snap wins the entire pile into their hand.  
-To call SNAP, you can click in the button in the center bottom or press the SPACEBAR key - (Be careful! if you call SNAP incorrectly, you'll lose more cards)  
+Each player (starting with you) will move a card to the center, when the top two cards are identical in value, the first player to call snap wins the entire pile into their hand.  
+To call SNAP, you can click in the button in the center bottom or press the SPACEBAR key  
+(Be careful! if you call SNAP incorrectly, you'll lose more cards)  
 The game ends when a player has run out cards and the player with the most cards wins.  
 
 
-
-## Credits:  
+## Credits & Acknowledgment:  
 All materials used are freeware
 
 Made with Pygame:
