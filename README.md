@@ -14,7 +14,12 @@ To see if it works, run one of the included examples:
 ```
 python3 -m pygame.examples.aliens
 ```
-If it works, you are ready to go! If not there are more detailed, platform-specific instructions further down the page.
+If it works, you are ready to go! If not there are more detailed, platform-specific instructions at https://www.pygame.org
+
+| Windows |
+|--------|
+[[Snapgamegui.zip](https://github.com/rockyyy1/Snapgamegui/files/12482633/Snapgamegui.zip)
+]
 
 
 ## How to Play:  
