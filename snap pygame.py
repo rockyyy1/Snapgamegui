@@ -356,7 +356,8 @@ while all_player_have_cards:
         user_snap_detected = False
         player_snap_success = False
         pygame.event.clear()
-        pygame.time.delay(1000)
+        pygame.time.set_timer(pygame.USEREVENT, 1000)
+
         if current_player < 4:
               current_player += 1
               user_has_snapped = False
