@@ -49,11 +49,11 @@ License: Creative Commons (Attribution 3.0 Unported) (http://creativecommons.org
 Download date: 2023-08-18  
 
 Font:  
-Disko  
+[Disko](https://www.bvfonts.com/fonts/details.php?id=46)
 Author: Jess Latham  
 Blue Vinyl Fonts   
 (c) 2009 All Rights Reserved  
-bvfonts.com  
+[bvfonts.com]
 
 Vector Playing card images:  
 Author: Byron Knoll  
