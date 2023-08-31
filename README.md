@@ -1,11 +1,11 @@
 # Snapgamegui
 
 
-https://github.com/rockyyy1/Snapgamegui/assets/124854700/643976b4-62ea-4d5e-88fc-2ed5851ae088
+## An interactive game of Snap.
+
+https://github.com/rockyyy1/Snapgamegui/assets/124854700/0339e28e-ea93-4c2e-884b-2887b453b948
 
 
-![image](https://github.com/rockyyy1/Snapgamegui/assets/124854700/4e40c38c-e27e-49ca-850c-385b40a9022f)  
-A game of Snap.
 
 ## Installation
 Pygame requires Python; if you don't already have it, you can download it from [python.org](python.org). It's recommended to run the latest python version, because it's usually faster and has better features than the older ones. Bear in mind that pygame has dropped support for python 2.
