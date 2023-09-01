@@ -60,15 +60,15 @@ def loadPlayingCard(card):
     Returns:
         playing_card_image: an image file of the argument 
     """
-    playing_card_image = pygame.image.load("Graphics/Vector Playing Cards/"+ card)
+    playing_card_image = pygame.image.load(f"Graphics/Vector Playing Cards/{card}")
     playing_card_image = pygame.transform.scale(playing_card_image, (85,115))
-    
+
     return playing_card_image
 
 def loadRandomEmoji():
     '''Returns a random image file from emoji folder'''
     global player_1_emoji, player_2_emoji, player_3_emoji, player_4_emoji
-    
+
     image_filenames = [
     "5241479_face_evil_smiley_angry_devil_grin_smile.png", 
     "5241480_smiley_face_shocked_surprise_shock.png",
@@ -81,16 +81,16 @@ def loadRandomEmoji():
     "5241488_embarrassed_be_face_smiley_embarrassment_emoji_smile.png",
     "5241492_speechless_emoji_zipped_lips.png",
     "5241490_emoji_sad_saddened_alarmed_face.png"]
-    
+
     images = random.sample(image_filenames, 4)
-    images = [pygame.image.load("Graphics/"+image) for image in images]
+    images = [pygame.image.load(f"Graphics/{image}") for image in images]
     images = [pygame.transform.scale(image, (image.get_width() // 40, image.get_height() // 40)) for image in images]
-    
-    player_1_emoji = images[0] 
-    player_2_emoji = images[1] 
+
+    player_1_emoji = images[0]
+    player_2_emoji = images[1]
     player_3_emoji = images[2]
     player_4_emoji = images[3]
-    
+
     return player_1_emoji, player_2_emoji, player_3_emoji, player_4_emoji
 
 def isHandEmpty(hand):
@@ -104,10 +104,7 @@ def isHandEmpty(hand):
         False if list is not empty
     """
     cards_in_hand = len(hand)
-    if cards_in_hand == 0:
-        return True
-    else:
-        return False
+    return cards_in_hand == 0
 
 def updateCardPosition(x, y, target_x, target_y, step):
     """Moves card position each frame by a step if not at target destination
@@ -138,70 +135,47 @@ def cardAnimation(current_player):
     Args:
         current_player (int): The player turning over a card (1-4)
     """
-    global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos 
+    global p1_card_x_pos, p1_card_y_pos, p2_card_x_pos, p2_card_y_pos, p3_card_x_pos, p3_card_y_pos, p4_card_y_pos, p4_card_x_pos
     global firstTurn
     backcard = pygame.image.load("Graphics/Vector Playing Cards/backcard.png")
     backcard = pygame.transform.scale(backcard, (85,115))
-        
+
     #Player 1
     if current_player == 1:
         if len(central_pile) >= 2:
-            if not firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (260, 160))
-                screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (280, 160))    
-            elif firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (260, 160))
-            screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (280, 160))
+            grabLastPlayedCards(260, firstTurn, 280)
         screen.blit(loadPlayingCard(("backcard.png")), (p1_card_x_pos, p1_card_y_pos))
         if p1_card_x_pos == 260 and p1_card_y_pos == 160:
-            screen.blit(loadPlayingCard(str(central_pile[-1]) + ".png"), (260, 160))            
-            
+            screen.blit(loadPlayingCard(f"{str(central_pile[-1])}.png"), (260, 160))            
+
     #Player 2
     if current_player == 2:
         if len(central_pile) >= 2:
-            if not firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (280, 160))
-                screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (260, 160))
-            elif firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (280, 160))
-            screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (260, 160))
+            grabLastPlayedCards(280, firstTurn, 260)
         screen.blit(loadPlayingCard(("backcard.png")), (p2_card_x_pos, p2_card_y_pos))
         if p2_card_x_pos == 280 and p2_card_y_pos == 160:
-            screen.blit(loadPlayingCard(str(central_pile[-1]) + ".png"), (280, 160))
-            
-    #Player 3
+            screen.blit(loadPlayingCard(f"{str(central_pile[-1])}.png"), (280, 160))
+
     elif current_player == 3:
         if len(central_pile) >= 2:
-            if not firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (260, 160))
-                screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (280, 160))    
-            elif firstTurn:
-                if len(central_pile) > 2:
-                  screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (260, 160))
-            screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (280, 160))
+            grabLastPlayedCards(260, firstTurn, 280)
         screen.blit(loadPlayingCard(("backcard.png")), (p3_card_x_pos, p3_card_y_pos))
         if p3_card_x_pos == 260 and p3_card_y_pos == 160:
-            screen.blit(loadPlayingCard(str(central_pile[-1]) + ".png"), (260, 160))
-            
-    #Player 4
+            screen.blit(loadPlayingCard(f"{str(central_pile[-1])}.png"), (260, 160))
+
     elif current_player == 4:
         if len(central_pile) >= 2:
-            if not firstTurn:
-                if len(central_pile) > 2 :
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (280, 160))
-                screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (260, 160))
-            elif firstTurn:
-                if len(central_pile) > 2:
-                    screen.blit(loadPlayingCard(str(central_pile[-3]) + ".png"), (280, 160))
-            screen.blit(loadPlayingCard(str(central_pile[-2]) + ".png"), (260, 160))
+            grabLastPlayedCards(280, firstTurn, 260)
         screen.blit(loadPlayingCard(("backcard.png")), (p4_card_x_pos, p4_card_y_pos))
         if p4_card_x_pos == 280 and p4_card_y_pos == 160:
-            screen.blit(loadPlayingCard(str(central_pile[-1]) + ".png"), (280, 160))
+            screen.blit(loadPlayingCard(f"{str(central_pile[-1])}.png"), (280, 160))
+
+def grabLastPlayedCards(arg0, firstTurn, arg2):
+    if len(central_pile) > 2:
+        screen.blit(loadPlayingCard(f"{str(central_pile[-3])}.png"), (arg0, 160))
+    if not firstTurn:
+        screen.blit(loadPlayingCard(f"{str(central_pile[-2])}.png"), (arg2, 160))
+    screen.blit(loadPlayingCard(f"{str(central_pile[-2])}.png"), (arg2, 160))
 
 def isSnap(central_pile):
     """Checks the two latest cards in Pile if they match in value
@@ -213,10 +187,8 @@ def isSnap(central_pile):
         True if two cards match
         False if they do not match
     """
-    if len(central_pile) > 1:
-        if central_pile[-1].value == central_pile[-2].value:
-            return True
-    return False
+    if len(central_pile) > 1 and central_pile[-1].value == central_pile[-2].value:
+        return True
 
 def snapCall():
     """Chooses a random player (not player 1) to call snap and collect the central pile
@@ -226,27 +198,25 @@ def snapCall():
     if random_player == 2:
         for i in central_pile:
             player_2_hand.append(i)
-        print("player 2 called SNAP")
+        print("Player 2 called SNAP", end = " ")
         
     elif random_player == 3:
         for i in central_pile:
             player_3_hand.append(i)
-        print("player 3 called SNAP")
+        print("Player 3 called SNAP", end = " ")
         
     elif random_player == 4:
         for i in central_pile:
             player_4_hand.append(i)
-        print("player 4 called SNAP")
-
+        print("Player 4 called SNAP", end = " ")
+    print("and collects", len(central_pile),"cards.")
     central_pile.clear()
     pygame.display.update()
 
 def declareWinner():
     """Checks to see which player has the most cards and declares the winner
     """
-    card_counts = []
-    for hands in players_hands:
-        card_counts.append(len(hands))
+    card_counts = [len(hands) for hands in players_hands]
     winner = 0
     most_cards = 0
     for i in range(len(card_counts)):
@@ -299,31 +269,30 @@ while all_player_have_cards:
             font_SNAP = pygame.font.Font(font_file, 110)
             text_SNAP = font_SNAP.render("SNAP", True, (255, 0, 0))
             screen.blit(text_SNAP, (190,300))        
-        if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            if not user_has_snapped:
-                user_has_snapped = True
-                user_snap_detected = True
-                
-                if len(central_pile) >= 2:
-                    if isSnap(central_pile) == True:
-                        if not automatic_snap_triggered:
-                            print("YOU CALLED SNAP!")
-                            for i in central_pile:
-                                player_1_hand.append(i)
-                            player_snap_success = True                      
-                    else:
-                        print("NOT A SNAP - you lose a card :(")
-                        #append last card to start of central pile and pop last card in hand
-                        if len(player_1_hand) == 1:
-                            print("You ran out of cards")
-                            declareWinner()
-                            all_player_have_cards = False
-                            break
-                        central_pile.insert(0, player_1_hand[-1])
-                        player_1_hand.pop()
-                        player_snap_success = False
-                        automatic_snap_triggered = False
-                        user_snap_detected = False
+        if event.type == pygame.MOUSEBUTTONDOWN and button_SNAP.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not user_has_snapped:
+            user_has_snapped = True
+            user_snap_detected = True
+            
+            if len(central_pile) >= 2:
+                if isSnap(central_pile) == True:
+                    if not automatic_snap_triggered:
+                        print("YOU CALLED SNAP and collect",len(central_pile),"cards!")
+                        for i in central_pile:
+                            player_1_hand.append(i)
+                        player_snap_success = True                      
+                else:
+                    print("NOT A SNAP - you lose a card :(")
+                    #append last card to start of central pile and pop last card in hand
+                    if len(player_1_hand) == 1:
+                        print("You ran out of cards")
+                        declareWinner()
+                        all_player_have_cards = False
+                        break
+                    central_pile.insert(0, player_1_hand[-1])
+                    player_1_hand.pop()
+                    player_snap_success = False
+                    automatic_snap_triggered = False
+                    user_snap_detected = False
 
     #update card positions each frame      
     p1_card_x_pos, p1_card_y_pos = updateCardPosition(p1_card_x_pos, p1_card_y_pos, 260, 160, 6)
@@ -344,10 +313,9 @@ while all_player_have_cards:
         #print((opportunity_start_time - time.time()))
         if ((opportunity_start_time - time.time()) > 9):
             automatic_snap_triggered = True 
-            if not user_snap_detected and len(central_pile) >= 2:
-                if isSnap(central_pile):
+            if not user_snap_detected and len(central_pile) >= 2 and isSnap(central_pile):
                 #another player calls snap
-                    snapCall()
+                snapCall()
     
     #reset game states after snaps
         if player_snap_success:
