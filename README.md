@@ -8,6 +8,8 @@ https://github.com/rockyyy1/Snapgamegui/assets/124854700/0339e28e-ea93-4c2e-884b
 
 
 ## Installation
+Pygame is a cross-platform set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language.
+
 Pygame requires Python; if you don't already have it, you can download it from [python.org](python.org). It's recommended to run the latest python version, because it's usually faster and has better features than the older ones. Bear in mind that pygame has dropped support for python 2.
 
 The best way to install pygame is with the pip tool (which is what python uses to install packages). Note, this comes with python in recent versions. We use the --user flag to tell it to install into the home directory, rather than globally.
